@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{{ url_for('static', filename='images/favicon.png ') }}" type="image/gif" sizes="16x16">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dev_disable.css') }}">
+    <!-- <script src="{{ url_for('static', filename='js/dev_disable.js') }}"></script> -->
+
+    <script type="text/javascript" src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+
+    <title>Off-Flix</title>
+</head>
+
+<body>
+
+    <div id="appMountPoint">
+        <div class="nm-content-header is-fixed" data-uia="site-header">
+            <div class="nm-content-header-section nm-content-header-left">
+
+                {% set show = url_for(request.endpoint, **request.view_args).split('/')[-2] | int %}
+                <a onclick="location.replace('/delete/{{show}}')">
+                    <img id="shuffle" src="{{ url_for('static', filename='images/delete.png') }}">
+
+                </a>
+            </div>
+            
+            <div class="nm-content-header-section nm-content-header-section-logo     nm-content-header-left">
+                <a onclick="location.replace('/')">
+
+                    <img id="logo" src="{{ url_for('static', filename='images/logo.png') }}" alt="">
+                </a>
+
+            </div>
+            <div class="nm-content-header-section nm-content-header-right">
+                <a onclick="play_random({{show}})">
+                    <img id="shuffle" src="{{ url_for('static', filename='images/shuffle.png') }}">
+
+                </a>
+            </div>
+            <!-- <div class="nm-content-header-section nm-content-header-right">
+            <div class="nm-content-header-text">UNLIMITED TV SHOWS &amp; MOVIES</div><button
+                class="btn btn-get-started btn-red btn-large" type="submit" autocomplete="off" tabindex="0" role="link"
+                data-uia="homepage-link-button">JOIN NOW</button><a
+                href="/login?nextpage=https%3A%2F%2Fwww.netflix.com%2Fpk%2Ftitle%2F80192098" class="authLinks"
+                data-uia="header-login-link">SIGN IN</a>
+        </div> -->
+        </div>
+        <section class="nmtitle-section" id="section-seasons-and-episodes" data-uia="section-seasons-and-episodes">
+            <div class="section-header" data-uia="section-header">
+                <h2 class="section-header-text section-item" data-uia="section-header-text">Episodes</h2>
+                <h2 class="section-subheader-text section-item" data-uia="section-subheader-text">{{ season_title }}
+                </h2>
+
+            </div>
+            <div id="season-selector-container">
+                <div data-uia="season-selector+container" class="ui-select-wrapper season-selector"><label
+                        for="undefined-select" class="ui-label no-display"><span class="ui-label-text"></span></label>
+                    <div class="select-arrow medium">
+                        {% set current_part = url_for(request.endpoint, **request.view_args).split('/')[-1] | int %}
+
+                        <select data-uia="season-selector" class="ui-select medium" id="undefined-select" tabindex="0">
+                            {% for part in parts %}
+                            <option value="{{part['id']}}" {{"Selected" if current_part==part['id']}}>
+                                {{part['title']}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div id="seasons-and-episodes-list-container">
+                <div class="season season-active" style="margin-top: 20px;" data-uia="season-active">
+                    <!-- <div class="season-metadata">
+                        <div class="season-release-year" data-uia="season-release-year">Release year: 2017</div>
+                        <p class="season-synopsis" data-uia="season-synopsis">Eight thieves take hostages and lock
+                            themselves in the Royal Mint of Spain as a criminal mastermind manipulates the police to
+                            carry
+                            out his plan.</p>
+                    </div> -->
+                    <div class="episodes-container">
+                        {% for ep in episodes %}
+                        {% set thumbnail = 'images/thumbnails/%s' | format(ep['thumbnail']) %}
+                        <div id={{ep['id']}} onclick="play({{ep['id']}})" class="episode" data-uia="episode">
+                            <figure class="episode-thumbnail" data-uia="episode-thumbnail">
+
+                                <span class={{"episode-thumbnail-gradient" if ep['watched']}}></span>
+
+                                <img class="episode-thumbnail-image" data-uia="episode-thumbnail-image"
+                                    alt="Watch A Quick Vacation. Episode 7 of Season 3."
+                                    src="{{ url_for('static', filename= thumbnail) }}" loading="lazy">
+                            </figure>
+                            <div class="episode-metadata">
+                                <h3 class="episode-title" data-uia="episode-title">{{ ep['title'] }}</h3><span
+                                    class="episode-runtime" data-uia="episode-runtime">{{ ep['duration'] }}</span>
+                            </div>
+                            <!-- <p class="epsiode-synopsis" data-uia="episode-synopsis">Tokyo's happiness turns bittersweet.
+                                    Ángel closes in on a quarreling Raquel and the Professor. Authorities offer a
+                                    multimillion-dollar reward for tips.</p> -->
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,67 @@
+
+.episode-thumbnail-gradient {
+  height: 5px !important;
+  background-color: #ff0000 !important;
+}
+figure {
+  position: relative;
+  background-color: rgba(0,0,0,.55);
+  border: none;
+  font-size: 28px;
+  color: #FFFFFF;
+  text-align: center;
+  -webkit-transition-duration: 0.4; /* Safari */
+  transition-duration: 0.4;
+  text-decoration: none;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+figure:after {
+  content: "";
+  background: rgba(0,0,0,.55);
+  display: block;
+  position: absolute;
+  padding-top: 300%;
+  padding-left: 350%;
+  margin-left: -20px!important;
+  margin-top: -120%;
+  opacity: 0;
+  transition: all 0.8s
+}
+
+figure:active:after {
+  padding: 0;
+  margin: 0;
+  opacity: 1;
+  transition: 0s
+}
+
+#section-seasons-and-episodes{
+  margin-top: 20px;
+}
+
+#logo{
+  max-height: 36px;
+  max-width: 134px;
+}
+
+.nm-content-header-section-logo{
+  margin: auto;
+}
+
+.nm-content-header-section  a{
+  display: inherit;
+}
+
+select{
+  outline: none;
+}
+
+*[onclick]{
+  cursor: pointer;
+}
+#shuffle{
+  max-width: 35px;
+  max-height: 35px;
+}
